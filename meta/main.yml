@@ -31,7 +31,7 @@ galaxy_info:
   # the ones that apply to your role. If you don't see your
   # platform on this list, let us know and we'll get it added!
   #
-  #platforms:
+  platforms:
   #- name: OpenBSD
   #  versions:
   #  - all
@@ -214,6 +214,5 @@ galaxy_info:
     #
     # NOTE: A tag is limited to a single word comprised of
     # alphanumeric characters. Maximum 20 tags per role.
-
-dependencies: 
-  - { role: geerlingguy.ruby }
+  dependencies: 
+    - { role: geerlingguy.ruby }
