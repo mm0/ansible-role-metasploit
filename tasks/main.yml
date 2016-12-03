@@ -1,0 +1,64 @@
+---
+- name: install required packages 
+  package: pkg={{ item }} state=installed update_cache=yes 
+	become: yes
+  with_items: 
+  - bridge-utils 
+  - libreadline-dev 
+  - libpcap-ruby
+  - libpq5 
+  - libpq-dev 
+  - libsqlite3-dev 
+  - libpcap-dev 
+  - libxml2-dev 
+  - libxslt1-dev 
+  - libyaml-dev 
+  - libpq5 
+  - libpcap-ruby 
+  - libncap44 
+  - nmap
+  - openjdk-7-jre 
+  - pgadmin3 
+  - postgresql 
+  - tcpdump
+  - vncviewer 
+ 
+- name: get metasploit repo
+	become: yes
+  git: repo=https://github.com/rapid7/metasploit-framework.git dest=/opt/metasploit update=yes accept_hostkey=yes
+
+- name: Get additional msf plugin
+	become: yes
+  shell: curl -o /opt/metasploit/plugins/dnsr_import.rb https://raw.github.com/darkoperator/dnsrecon/master/msf_plugin/dnsr_import.rb
+
+- name: install required ruby gems 
+  gem: name={{ item }} state=latest
+  become: yes
+  with_items:
+  - wirble
+  - sqlite3
+  - bundler
+
+- name: install gems from package
+  become: yes
+  shell: chdir=/opt/metasploit bundle install
+
+- name: Create msg postgresql db
+  become: yes
+  postgresql_db: name=msf
+
+- name: Create msf postgresql user
+  become: yes
+  postgresql_user: db=msf name=msf password=msf priv=ALL
+
+- name: Put metasploit db config in place
+  copy: src=opt/metasploit/database.yml dest=/opt/metasploit/database.yml
+  become: yes
+
+- name: Create symlinks for msf suite
+  become: yes
+  shell: bash -c 'for MSF in $(ls /opt/metasploit/msf*); do ln -s /opt/metasploit/$MSF /usr/local/bin/$MSF;done'
+
+- name: Load metasploit setup from environment
+  become: yes
+  shell: bash -c 'echo "export MSF_DATABASE_CONFIG=/opt/metasploit/database.yml" >> /etc/profile'
