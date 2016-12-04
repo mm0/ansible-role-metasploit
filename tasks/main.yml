@@ -1,7 +1,7 @@
 ---
 - name: install required packages 
   package: pkg={{ item }} state=installed update_cache=yes 
-	become: yes
+  become: yes
   with_items: 
   - bridge-utils 
   - libreadline-dev 
@@ -24,7 +24,7 @@
   - vncviewer 
  
 - name: get metasploit repo
-	become: yes
+  become: yes
   git: repo=https://github.com/rapid7/metasploit-framework.git dest=/opt/metasploit update=yes accept_hostkey=yes
 
 - name: Get additional msf plugin
