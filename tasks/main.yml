@@ -28,7 +28,7 @@
   git: repo=https://github.com/rapid7/metasploit-framework.git dest=/opt/metasploit update=yes accept_hostkey=yes
 
 - name: Get additional msf plugin
-	become: yes
+  become: yes
   shell: curl -o /opt/metasploit/plugins/dnsr_import.rb https://raw.github.com/darkoperator/dnsrecon/master/msf_plugin/dnsr_import.rb
 
 - name: install required ruby gems 
