@@ -40,7 +40,6 @@
   - bundler
 
 - name: install gems from package
-  become: yes
   shell: chdir=/opt/metasploit bundle install
 
 - name: Create msg postgresql db
