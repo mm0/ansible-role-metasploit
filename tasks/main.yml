@@ -42,6 +42,9 @@
 - name: install gems from package
   shell: chdir=/opt/metasploit bundle install
 
+- name: Pip requirements
+  pip: name=psycopg2 state=present
+
 - name: Create msg postgresql db
   become: yes
   postgresql_db: name=msf
