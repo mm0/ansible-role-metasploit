@@ -47,11 +47,11 @@
   pip: name=psycopg2 state=present
 
 - name: Create msg postgresql db
-  become: yes
+  become: postgres
   postgresql_db: name=msf
 
 - name: Create msf postgresql user
-  become: yes
+  become: postgres
   postgresql_user: db=msf name=msf password=msf priv=ALL
 
 - name: Put metasploit db config in place
