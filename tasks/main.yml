@@ -49,11 +49,15 @@
 - name: Create msg postgresql db
   become: yes
   become_user: postgres
+  vars: 
+    ansible_ssh_pipelining: true
   postgresql_db: name=msf
 
 - name: Create msf postgresql user
   become_user: postgres
   become: yes
+  vars: 
+    ansible_ssh_pipelining: true
   postgresql_user: db=msf name=msf password=msf priv=ALL
 
 - name: Put metasploit db config in place
@@ -62,7 +66,9 @@
 
 - name: Create symlinks for msf suite
   become: yes
-  shell: bash -c 'for MSF in $(ls /opt/metasploit/msf*); do ln -s /opt/metasploit/$MSF /usr/local/bin/$MSF;done'
+  file: state=link src={{ item }} dest=/usr/local/bin/{{ item | filename }}
+  with_fileglob:
+  - /opt/metasploit/msf*
 
 - name: Load metasploit setup from environment
   become: yes

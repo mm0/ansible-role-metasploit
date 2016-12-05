@@ -130,7 +130,7 @@ galaxy_info:
   #  - maverick
   #  - natty
   #  - oneiric
-  #  - precise
+    - precise
   #  - quantal
   #  - raring
   #  - saucy
@@ -138,7 +138,7 @@ galaxy_info:
   #  - utopic
   #  - vivid
   #  - wily
-  #  - xenial
+    - xenial
   #  - yakkety
   #- name: Debian
   #  versions:
